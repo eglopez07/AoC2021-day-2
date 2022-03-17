@@ -22,7 +22,8 @@ int main(int argc, char *argv[])
 		{
 			try
 			{
-				holyDiver.registerCommand(input);
+				//holyDiver.registerCommandOriginal(input);
+				holyDiver.registerCommandNew(input);
 			}
 			catch (const std::invalid_argument& ia)
 			{

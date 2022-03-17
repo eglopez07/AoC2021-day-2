@@ -1,16 +1,16 @@
 #include "Submarine.h"
 
 int Submarine::getHorizontalPos() { return *h; }
-void Submarine::setHorizontalPos(int a)
+void Submarine::setHorizontalPos(int x)
 {
-	*h = a;
+	*h = x;
 	return;
 }
 
 int Submarine::getDepth() { return *d; }
-void Submarine::setDepth(int a)
+void Submarine::setDepth(int x)
 {
-	*d = a;
+	*d = x;
 	return;
 }
 
@@ -18,6 +18,13 @@ int Submarine::getFinal() { return *final; }
 void Submarine::calculateFinal()
 {
 	*final = *h * *d;
+	return;
+}
+
+int Submarine::getAim() { return *a; }
+void Submarine::setAim(int x)
+{
+	*a = x;
 	return;
 }
 
@@ -33,6 +40,8 @@ int Submarine::getUnitFromString(std::string s)
 	}
 }
 
+int Submarine::multiplyAimByUnit(int x) { return getAim() * x; }
+
 bool Submarine::validateString(std::string s)
 {
 	if (s.length() >= 9 && s.substr(0, 8) == "forward ") { return true; }
@@ -41,7 +50,8 @@ bool Submarine::validateString(std::string s)
 	return false;
 }
 
-void Submarine::registerCommand(std::string direction)
+// Used to solve part 1
+void Submarine::registerCommandOriginal(std::string direction)
 {
 	(*lineCount)++;
 
@@ -62,6 +72,37 @@ void Submarine::registerCommand(std::string direction)
 			setDepth(getDepth() - commands.at(direction));
 			break;
 		
+		default:
+			break;
+		}
+	}
+	else { throw ex; }
+	return;
+}
+
+//Used to solve part 2
+void Submarine::registerCommandNew(std::string direction)
+{
+	(*lineCount)++;
+
+	if (validateString(direction))
+	{
+		if (commands.find(direction) == commands.end()) { commands.insert({ direction, getUnitFromString(direction) }); }
+		switch (direction[0])
+		{
+		case 'f':
+			setHorizontalPos(getHorizontalPos() + commands.at(direction));
+			setDepth( getDepth() + multiplyAimByUnit(commands.at(direction)) );
+			break;
+
+		case 'd':
+			setAim(getAim() + commands.at(direction));
+			break;
+
+		case 'u':
+			setAim(getAim() - commands.at(direction));
+			break;
+
 		default:
 			break;
 		}

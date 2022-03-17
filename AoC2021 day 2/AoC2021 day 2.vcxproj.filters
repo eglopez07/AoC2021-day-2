@@ -18,5 +18,13 @@
     <ClCompile Include="AoC2021 day 2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Submarine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Submarine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

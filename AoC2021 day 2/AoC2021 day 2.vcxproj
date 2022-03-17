@@ -152,6 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AoC2021 day 2.cpp" />
+    <ClCompile Include="Submarine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Submarine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

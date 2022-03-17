@@ -2,19 +2,30 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include "Submarine.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	Submarine foo;
+	std::string bar = "forward 256";
+
+	try
+	{
+		foo.registerCommand(bar);
+	}
+	catch (const std::invalid_argument& ia)
+	{
+		std::cout << "Invalid argument, check input: " << ia.what() << "\n";
+	}
+	catch (const std::out_of_range& oor)
+	{
+		std::cout << "Exception: Out of range. Check input: " << oor.what() << "\n";
+
+	}
+
+	std::cout << "Submarine command is as follows: " << bar << "\n"
+		<< "Units travelled: " << foo.getCommandUnit(bar) << "\n";
+
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

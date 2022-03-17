@@ -1,25 +1,27 @@
 #include "Submarine.h"
 
-int Submarine::getHorizontalPos() { return h; }
+int Submarine::getHorizontalPos() { return *h; }
 void Submarine::setHorizontalPos(int a)
 {
-	h = a;
+	*h = a;
 	return;
 }
 
-int Submarine::getDepth() { return d; }
+int Submarine::getDepth() { return *d; }
 void Submarine::setDepth(int a)
 {
-	d = a;
+	*d = a;
 	return;
 }
 
-int Submarine::getFinal() { return final; }
+int Submarine::getFinal() { return *final; }
 void Submarine::calculateFinal()
 {
-	final = h * d;
+	*final = *h * *d;
 	return;
 }
+
+int Submarine::getLineCount() { return *lineCount; }
 
 int Submarine::getUnitFromString(std::string s)
 {
@@ -33,18 +35,43 @@ int Submarine::getUnitFromString(std::string s)
 
 bool Submarine::validateString(std::string s)
 {
-	if (s.length() >= 9 && s.substr(0, 8) == "forward ") { return getUnitFromString(s) >= 0; }
-	else if (s.length() >= 6 && s.substr(0, 5) == "down ") { return getUnitFromString(s) >= 0; }
-	else if (s.length() >= 4 && s.substr(0, 3) == "up ") { return getUnitFromString(s) >= 0; }
+	if (s.length() >= 9 && s.substr(0, 8) == "forward ") { return true; }
+	else if (s.length() >= 6 && s.substr(0, 5) == "down ") { return true; }
+	else if (s.length() >= 4 && s.substr(0, 3) == "up ") { return true; }
 	return false;
 }
 
 void Submarine::registerCommand(std::string direction)
 {
-	if (validateString(direction)) { commands.insert({ direction, getUnitFromString(direction) }); }
+	(*lineCount)++;
+
+	if (validateString(direction)) 
+	{ 
+		if (commands.find(direction) == commands.end()) { commands.insert({ direction, getUnitFromString(direction) }); }
+		switch (direction[0])
+		{
+		case 'f':
+			setHorizontalPos(getHorizontalPos() + commands.at(direction));
+			break;
+
+		case 'd':
+			setDepth(getDepth() + commands.at(direction));
+			break;
+
+		case 'u':
+			setDepth(getDepth() - commands.at(direction));
+			break;
+		
+		default:
+			break;
+		}
+	}
+	else { throw ex; }
+	return;
 }
 
 int Submarine::getCommandUnit(std::string s)
 {
-	return commands[s];
+	//0 used to indicate mapped value not found.
+	return commands.find(s) != commands.end() ? commands[s] : 0;
 }

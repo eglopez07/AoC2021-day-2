@@ -5,27 +5,46 @@
 #include <fstream>
 #include "Submarine.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-	Submarine foo;
-	std::string bar = "forward 256";
-
-	try
+	if (argc > 1)
 	{
-		foo.registerCommand(bar);
-	}
-	catch (const std::invalid_argument& ia)
-	{
-		std::cout << "Invalid argument, check input: " << ia.what() << "\n";
-	}
-	catch (const std::out_of_range& oor)
-	{
-		std::cout << "Exception: Out of range. Check input: " << oor.what() << "\n";
+		std::ifstream is (argv[1], std::ifstream::in);
+		Submarine holyDiver;
+
+		if (!is.is_open())
+		{
+			std::cout << "File could not be opened. Check file or command line arguments.\n";
+			return 0;
+		}
+
+		for (std::string input; std::getline(is, input);)
+		{
+			try
+			{
+				holyDiver.registerCommand(input);
+			}
+			catch (const std::invalid_argument& ia)
+			{
+				std::cout << "Exception: Invalid argument. Check input: " << ia.what() << "\n";
+			}
+			catch (const std::out_of_range& oor)
+			{
+				std::cout << "Exception: Out of range. Check input: " << oor.what() << "\n";
+			}
+			catch (const std::exception& is)
+			{
+				std::cout << is.what() << holyDiver.getLineCount() << '\n';
+			}
+		}
+		holyDiver.calculateFinal();
+
+		std::cout << "Final Horizontal Position: " << holyDiver.getHorizontalPos() << '\n'
+			<< "Final Depth: " << holyDiver.getDepth() << '\n'
+			<< "When we multiply these together, the product is: " << holyDiver.getFinal() << '\n';
 
 	}
-
-	std::cout << "Submarine command is as follows: " << bar << "\n"
-		<< "Units travelled: " << foo.getCommandUnit(bar) << "\n";
+	else { std::cout << "No file path specified. Check command line arguments.\n"; }
 
 	return 0;
 }

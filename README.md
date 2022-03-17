@@ -12,4 +12,6 @@ First we go through a file line-by-line for input and, after checking that it is
 I added some catches to help with debugging my logic, and even wrote a unique exception for the string validation. Once again we are using command line arguments because I think they are simple to work with. In the future, I would like to implement a way for the user to specify the file path for input within the program if no command line arguments are available or they are otherwise invalid.
 
 ## Part 2
-//TODO: Finish
+This could not have been simpler to implement. Just some minor additions to account for the new variable and an updated function for performing actions based on inputs received. It went well and passed with flying colors!
+
+On to day 3!
